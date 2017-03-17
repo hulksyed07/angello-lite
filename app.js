@@ -84,35 +84,54 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
     main.stories = AngelloModel.getStories();
     main.typesIndex = AngelloHelper.buildIndex(main.types, 'name');
     main.statusesIndex = AngelloHelper.buildIndex(main.statuses, 'name');
+    main.currentStory = null;
+    main.editedStory = {};
 
     main.setCurrentStory = function (story) {
         main.currentStory = story;
         main.currentStatus = main.statusesIndex[story.status];
         main.currentType = main.typesIndex[story.type];
+        main.editedStory = angular.copy(main.currentStory);
     };
 
     main.createStory = function() {
-        main.stories.push({
-            title: 'New Story',
-            description: 'Description pending.',
-            criteria: 'Criteria pending.',
-            status: 'Back Log',
-            type: 'Feature',
-            reporter: 'Pending',
-            assignee: 'Pending'
-        });
+        main.stories.push(main.editedStory);
+        main.resetForm();
     };
 
+    main.updateStory = function() {
+        var fields = ['title', 'description', 'criteria', 'status', 'type', 'reporter', 'assignee'];
+        fields.forEach(function(field){
+            main.currentStory[field] = main.editedStory[field];
+        });
+        main.resetForm();
+    };
+
+    main.updateCancel =  function() {
+        main.resetForm();
+    }
+
     main.setCurrentStatus = function (status) {
-        if (typeof main.currentStory !== 'undefined') {
-            main.currentStory.status = status.name;
+        if (typeof main.editedStory !== 'undefined') {
+            main.editedStory.status = status.name;
         }
     };
 
     main.setCurrentType = function (type) {
-        if (typeof main.currentStory !== 'undefined') {
-            main.currentStory.type = type.name;
+        if (typeof main.editedStory !== 'undefined') {
+            main.editedStory.type = type.name;
         }
+    };
+
+    main.resetForm = function () {
+        main.currentStory = null;
+        main.editedStory = {};
+
+        main.currentStatus = null;
+        main.currentType = null;
+
+        main.detailsForm.$setPristine();
+        main.detailsForm.$setUntouched();
     };
 });
 

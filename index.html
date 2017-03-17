@@ -25,11 +25,11 @@
 			</div>
 			<div class="col-md-6 content">
 				<h2>Story</h2>
-				<form class="form-horizontal">
+				<form class="form-horizontal" name="main.detailsForm">
 					<div class="form-group">
 						<label class="control-label" for="inputTitle">Title</label>
 						<div class="controls">
-							<input type="text" class="form-control" id="inputTitle" placeholder="Title" ng-model="main.currentStory.title" />
+							<input type="text" class="form-control" id="inputTitle" placeholder="Title" ng-model="main.editedStory.title" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -52,29 +52,43 @@
 						<label class="control-label" for="inputDescription">Description</label>
 						<div class="controls">
 							<textarea id="inputDescription" class="form-control" placeholder="Description" rows="3"
-									  ng-model="main.currentStory.description"></textarea>
+									  ng-model="main.editedStory.description"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="inputAcceptance">Acceptance Criteria</label>
 						<div class="controls">
 							<textarea id="inputAcceptance" class="form-control" placeholder="Acceptance Criteria" rows="3"
-									  ng-model="main.currentStory.criteria"></textarea>
+									  ng-model="main.editedStory.criteria"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label" for="inputReporter">Reporter</label>
 						<div class="controls">
-							<input type="text" class="form-control" id="inputReporter" placeholder="Reporter" ng-model="main.currentStory.reporter" />
+							<input type="text" class="form-control" id="inputReporter" placeholder="Reporter" ng-model="main.editedStory.reporter" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label  for="inputAssignee">Assignee</label>
 						<div class="controls">
-							<input type="text" class="form-control" id="inputAssignee" placeholder="Assignee" ng-model="main.currentStory.assignee" />
+							<input type="text" class="form-control" id="inputAssignee" placeholder="Assignee" ng-model="main.editedStory.assignee" />
 						</div>
 					</div>
 				</form>
+
+				<div ng-if="main.currentStory">
+		            <button class="btn btn-default" ng-click="main.updateCancel()">
+		                Cancel
+		            </button>
+		            <button class="btn pull-right btn-default"
+		                    ng-disabled="main.detailsForm.$invalid"
+		                    ng-click="main.updateStory()">Update</button>
+		        </div>
+		        <div ng-if="!main.currentStory">
+		            <button class="btn pull-right btn-default"
+		                    ng-disabled="main.detailsForm.$invalid"
+		                    ng-click="main.createStory()">New Storyboard</button>
+		        </div>
 			</div>
 		</div>
 	</body>
