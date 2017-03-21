@@ -16,7 +16,37 @@ myModule.factory('AngelloHelper', function() {
     };
 });
 
-myModule.service('AngelloModel', function() {
+
+
+
+myModule.service('UtilsService',
+        function() {
+            var service = this;
+
+            service.objectToArray = function(content) {
+                // normalizes data from node and firebase so both get returned as arrays
+                if (content.data instanceof Object && !Array.isArray(content.data)) {
+                    var newArray = [];
+
+                    for (var key in content.data) {
+                        var item = content.data[key];
+                        item.id = key;
+                        newArray.push(item);
+                    }
+                    return newArray;
+                
+                } else {
+                    return content.data;
+                }
+            };
+        }
+    );
+
+
+
+
+
+myModule.service('AngelloModel', function($http, UtilsService) {
     var service = this,
         statuses = [
             {name: 'Back Log'},
@@ -72,7 +102,16 @@ myModule.service('AngelloModel', function() {
     };
 
     service.getStories = function () {
-        return stories;
+        // return stories;
+
+        return $http.get('/api/stories')
+            .then( function(result){
+                // return UtilsService.objectToArray(result);
+                console.log(UtilsService.objectToArray(result));
+                return UtilsService.objectToArray(result);
+                // return result;
+            });
+
     };
 });
 
@@ -82,6 +121,7 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
     main.types = AngelloModel.getTypes();
     main.statuses = AngelloModel.getStatuses();
     main.stories = AngelloModel.getStories();
+    console.log(main.stories);
     main.typesIndex = AngelloHelper.buildIndex(main.types, 'name');
     main.statusesIndex = AngelloHelper.buildIndex(main.statuses, 'name');
     main.currentStory = null;
@@ -96,6 +136,7 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
 
     main.createStory = function() {
         main.stories.push(main.editedStory);
+        
         main.resetForm();
     };
 
@@ -130,8 +171,8 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
         main.currentStatus = null;
         main.currentType = null;
 
-        main.detailsForm.$setPristine();
-        main.detailsForm.$setUntouched();
+        // main.detailsForm.$setPristine();
+        // main.detailsForm.$setUntouched();
     };
 });
 
