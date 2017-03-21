@@ -62,36 +62,38 @@ myModule.service('AngelloModel', function($http, UtilsService) {
             {name: 'Enhancement'},
             {name: 'Bug'},
             {name: 'Spike'}
-        ],
-        stories = [
-            {
-                title: 'First story',
-                description: 'Our first story.',
-                criteria: 'Criteria pending.',
-                status: 'To Do',
-                type: 'Feature',
-                reporter: 'Lukas Ruebbelke',
-                assignee: 'Brian Ford'
-            },
-            {
-                title: 'Second story',
-                description: 'Do something.',
-                criteria: 'Criteria pending.',
-                status: 'Back Log',
-                type: 'Feature',
-                reporter: 'Lukas Ruebbelke',
-                assignee: 'Brian Ford'
-            },
-            {
-                title: 'Another story',
-                description: 'Just one more.',
-                criteria: 'Criteria pending.',
-                status: 'Code Review',
-                type: 'Enhancement',
-                reporter: 'Lukas Ruebbelke',
-                assignee: 'Brian Ford'
-            }
-        ];
+        ]
+        // ,
+        // stories = [
+        //     {
+        //         title: 'First story',
+        //         description: 'Our first story.',
+        //         criteria: 'Criteria pending.',
+        //         status: 'To Do',
+        //         type: 'Feature',
+        //         reporter: 'Lukas Ruebbelke',
+        //         assignee: 'Brian Ford'
+        //     },
+        //     {
+        //         title: 'Second story',
+        //         description: 'Do something.',
+        //         criteria: 'Criteria pending.',
+        //         status: 'Back Log',
+        //         type: 'Feature',
+        //         reporter: 'Lukas Ruebbelke',
+        //         assignee: 'Brian Ford'
+        //     },
+        //     {
+        //         title: 'Another story',
+        //         description: 'Just one more.',
+        //         criteria: 'Criteria pending.',
+        //         status: 'Code Review',
+        //         type: 'Enhancement',
+        //         reporter: 'Lukas Ruebbelke',
+        //         assignee: 'Brian Ford'
+        //     }
+        // ]
+        ;
 
     service.getStatuses = function () {
         return statuses;
@@ -106,10 +108,8 @@ myModule.service('AngelloModel', function($http, UtilsService) {
 
         return $http.get('/api/stories')
             .then( function(result){
-                // return UtilsService.objectToArray(result);
                 console.log(UtilsService.objectToArray(result));
                 return UtilsService.objectToArray(result);
-                // return result;
             });
 
     };
@@ -120,8 +120,17 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
 
     main.types = AngelloModel.getTypes();
     main.statuses = AngelloModel.getStatuses();
-    main.stories = AngelloModel.getStories();
-    console.log(main.stories);
+    main.stories = {};
+    main.getAllStories = function() {
+        AngelloModel.getStories()
+            .then( function(result) {
+                main.stories = result ;
+            });
+
+    };
+
+    main.getAllStories();
+
     main.typesIndex = AngelloHelper.buildIndex(main.types, 'name');
     main.statusesIndex = AngelloHelper.buildIndex(main.statuses, 'name');
     main.currentStory = null;
