@@ -15,7 +15,7 @@
     app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
     app.use(bodyParser.json());                                     // parse application/json
     app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-    app.use(methodOverride());
+    app.use(methodOverride('X-HTTP-Method-Override'));
 
     // listen (start app with node server.js) ======================================
     app.listen(8081);
@@ -90,5 +90,6 @@
 
     // application -------------------------------------------------------------
     app.get('*', function(req, res) {
-        res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+        // res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+        res.sendFile( __dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
