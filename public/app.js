@@ -115,7 +115,7 @@ myModule.service('AngelloModel', function($http, UtilsService) {
     };
 });
 
-myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
+myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
     var main = this;
 
     main.types = AngelloModel.getTypes();
@@ -135,8 +135,8 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper) {
     };
 
     main.createStory = function() {
-        main.stories.push(main.editedStory);
-        
+        console.log(main.editedStory);
+        $http.post('/api/stories', main.editedStory)
         main.resetForm();
     };
 
