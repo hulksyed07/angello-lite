@@ -135,17 +135,27 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
     main.statusesIndex = AngelloHelper.buildIndex(main.statuses, 'name');
     main.currentStory = null;
     main.editedStory = {};
+    // main.isNewStory = function() {
+    //     console.log(angular.equals({}, main.editedStory));
+    //     return (angular.equals({}, main.editedStory));
+    // }
+    main.showDeleteButton = false ;
+    // console.log(main.isNewStory());
 
     main.setCurrentStory = function (story) {
         main.currentStory = story;
         main.currentStatus = main.statusesIndex[story.status];
         main.currentType = main.typesIndex[story.type];
         main.editedStory = angular.copy(main.currentStory);
+        main.showDeleteButton = true ;
     };
 
     main.createStory = function() {
         console.log(main.editedStory);
-        $http.post('/api/stories', main.editedStory)
+        $http.post('/api/stories', main.editedStory).
+        success(function(result){
+            main.stories = result ;
+        });
         main.resetForm();
     };
 
@@ -160,6 +170,16 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
     main.updateCancel =  function() {
         main.resetForm();
     }
+
+    main.deleteStory = function() {
+        $http.delete('/api/stories/'+ main.editedStory._id)
+        .success(function(result){
+            main.stories = result;
+            main.resetForm();
+        });
+    }
+
+    
 
     main.setCurrentStatus = function (status) {
         if (typeof main.editedStory !== 'undefined') {

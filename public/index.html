@@ -26,7 +26,8 @@
                 </a>
 			</div>
 			<div class="col-md-6 content">
-				<h2>Story</h2>
+				<h2>Story{{main.showDeleteButton}}</h2>
+				<button  ng-hide="{{main.showDeleteButton}}" ng-click="main.deleteStory()" >Delete</button>
 				<form class="form-horizontal" name="main.detailsForm">
 					<div class="form-group">
 						<label class="control-label" for="inputTitle">Title</label>
