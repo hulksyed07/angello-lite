@@ -113,6 +113,29 @@ myModule.service('AngelloModel', function($http, UtilsService) {
             });
 
     };
+
+    service.createStory = function(story) {
+        return $http.post('/api/stories', story)
+                .then(function(result){
+                    console.log('create inside service: '+ result);
+                    return UtilsService.objectToArray(result);
+                });
+    }
+
+    service.updateStory = function(story) {
+        return $http.put('/api/stories/'+ story._id, story)
+                .then(function(result){
+                    return UtilsService.objectToArray(result);
+                })
+    }
+
+    service.deleteStory = function(id) {
+        return $http.delete('/api/stories/'+id)
+                .then(function(result){
+                    return UtilsService.objectToArray(result);
+                });
+                
+    }
 });
 
 myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
@@ -150,40 +173,60 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
         main.showDeleteButton = true ;
     };
 
+    // main.createStory = function() {
+    //     console.log(main.editedStory);
+    //     $http.post('/api/stories', main.editedStory).
+    //     success(function(result){
+    //         main.stories = result ;
+    //     });
+    //     main.resetForm();
+    // };
+
+    // main.updateStory = function() {
+    //     // var fields = ['title', 'description', 'criteria', 'status', 'type', 'reporter', 'assignee'];
+    //     // fields.forEach(function(field){
+    //     //     main.currentStory[field] = main.editedStory[field];
+    //     // });
+    //     $http.put('/api/stories/'+ main.editedStory._id, main.editedStory)
+    //     .success(function(result){
+    //         main.stories = result ;
+    //     })
+    //     main.resetForm();
+    // };
+
     main.createStory = function() {
         console.log(main.editedStory);
-        $http.post('/api/stories', main.editedStory).
-        success(function(result){
-            main.stories = result ;
+        AngelloModel.createStory(main.editedStory)
+        .then(function(result){
+            console.log('create inside ctrl: '+ result);
+            main.stories = result;
         });
         main.resetForm();
-    };
+    };    
+
+    
 
     main.updateStory = function() {
-        // var fields = ['title', 'description', 'criteria', 'status', 'type', 'reporter', 'assignee'];
-        // fields.forEach(function(field){
-        //     main.currentStory[field] = main.editedStory[field];
-        // });
-        $http.put('/api/stories/'+ main.editedStory._id, main.editedStory)
-        .success(function(result){
-            main.stories = result ;
-        })
+        AngelloModel.updateStory(main.editedStory)
+        .then(function(result){
+            console.log('update inside ctrl: '+ result);
+            main.stories = result;
+        });
         main.resetForm();
     };
 
     main.updateCancel =  function() {
         main.resetForm();
-    }
+    };
 
     main.deleteStory = function() {
-        $http.delete('/api/stories/'+ main.editedStory._id)
-        .success(function(result){
+        AngelloModel.deleteStory(main.editedStory._id)
+        .then(function(result){
+            console.log('delete inside ctrl: '+ result);
             main.stories = result;
-            main.resetForm();
         });
-    }
-
-    
+        main.resetForm();
+    };
 
     main.setCurrentStatus = function (status) {
         if (typeof main.editedStory !== 'undefined') {
