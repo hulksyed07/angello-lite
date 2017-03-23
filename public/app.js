@@ -160,10 +160,14 @@ myModule.controller('MainCtrl', function(AngelloModel, AngelloHelper, $http) {
     };
 
     main.updateStory = function() {
-        var fields = ['title', 'description', 'criteria', 'status', 'type', 'reporter', 'assignee'];
-        fields.forEach(function(field){
-            main.currentStory[field] = main.editedStory[field];
-        });
+        // var fields = ['title', 'description', 'criteria', 'status', 'type', 'reporter', 'assignee'];
+        // fields.forEach(function(field){
+        //     main.currentStory[field] = main.editedStory[field];
+        // });
+        $http.put('/api/stories/'+ main.editedStory._id, main.editedStory)
+        .success(function(result){
+            main.stories = result ;
+        })
         main.resetForm();
     };
 
