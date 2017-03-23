@@ -1,0 +1,82 @@
+<div ng-controller="StoryboardCtrl as storyboard">
+	<div class="col-md-4">
+		<h2>Stories</h2>
+		<div story></div>
+		<story class="callout"
+               ng-repeat="story in storyboard.stories"
+               ng-click="storyboard.setCurrentStory(story)">
+        </story>
+		<br/>
+		<a class="btn btn-primary" ng-click="storyboard.createStory()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+	</div>
+	<div class="col-md-6 content">
+		<h2>Story{{storyboard.showDeleteButton}}</h2>
+		<button  ng-hide="{{storyboard.showDeleteButton}}" ng-click="storyboard.deleteStory()" >Delete</button>
+		<form class="form-horizontal" name="storyboard.detailsForm">
+			<div class="form-group">
+				<label class="control-label" for="inputTitle">Title</label>
+				<div class="controls">
+					<input type="text" class="form-control" id="inputTitle" placeholder="Title" ng-model="storyboard.editedStory.title" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="inputStatus">Status</label>
+				<div class="controls">
+					<select id="inputStatus" class="form-control" ng-model="storyboard.currentStatus"
+							ng-options="l.name for l in storyboard.statuses"
+							ng-change="storyboard.setCurrentStatus(storyboard.currentStatus)"></select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="inputType">Type</label>
+				<div class="controls">
+					<select id="inputType" class="form-control" ng-model="storyboard.currentType"
+							ng-options="t.name for t in storyboard.types"
+							ng-change="storyboard.setCurrentType(storyboard.currentType)"></select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="inputDescription">Description</label>
+				<div class="controls">
+					<textarea id="inputDescription" class="form-control" placeholder="Description" rows="3"
+							  ng-model="storyboard.editedStory.description"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="inputAcceptance">Acceptance Criteria</label>
+				<div class="controls">
+					<textarea id="inputAcceptance" class="form-control" placeholder="Acceptance Criteria" rows="3"
+							  ng-model="storyboard.editedStory.criteria"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="inputReporter">Reporter</label>
+				<div class="controls">
+					<input type="text" class="form-control" id="inputReporter" placeholder="Reporter" ng-model="storyboard.editedStory.reporter" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label  for="inputAssignee">Assignee</label>
+				<div class="controls">
+					<input type="text" class="form-control" id="inputAssignee" placeholder="Assignee" ng-model="storyboard.editedStory.assignee" />
+				</div>
+			</div>
+		</form>
+
+		<div ng-if="storyboard.currentStory">
+            <button class="btn btn-default" ng-click="storyboard.updateCancel()">
+                Cancel
+            </button>
+            <button class="btn pull-right btn-default"
+                    ng-disabled="storyboard.detailsForm.$invalid"
+                    ng-click="storyboard.updateStory()">Update</button>
+        </div>
+        <div ng-if="!storyboard.currentStory">
+            <button class="btn pull-right btn-default"
+                    ng-disabled="storyboard.detailsForm.$invalid"
+                    ng-click="storyboard.createStory()">New Storyboard</button>
+        </div>
+	</div>
+</div>
