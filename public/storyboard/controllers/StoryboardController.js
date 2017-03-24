@@ -1,11 +1,11 @@
-angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(AngelloModel, AngelloHelper, $http) {
+angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(StoryModel, AngelloHelper, $http) {
     var storyboard = this;
 
-    storyboard.types = AngelloModel.getTypes();
-    storyboard.statuses = AngelloModel.getStatuses();
+    storyboard.types = StoryModel.getTypes();
+    storyboard.statuses = StoryModel.getStatuses();
     storyboard.stories = {};
     storyboard.getAllStories = function() {
-        AngelloModel.getStories()
+        StoryModel.getStories()
             .then( function(result) {
                 storyboard.stories = result ;
             });
@@ -56,7 +56,7 @@ angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(Angel
 
     storyboard.createStory = function() {
         console.log(storyboard.editedStory);
-        AngelloModel.createStory(storyboard.editedStory)
+        StoryModel.createStory(storyboard.editedStory)
         .then(function(result){
             console.log('create inside ctrl: '+ result);
             storyboard.stories = result;
@@ -67,7 +67,7 @@ angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(Angel
     
 
     storyboard.updateStory = function() {
-        AngelloModel.updateStory(storyboard.editedStory)
+        StoryModel.updateStory(storyboard.editedStory)
         .then(function(result){
             console.log('update inside ctrl: '+ result);
             storyboard.stories = result;
@@ -80,7 +80,7 @@ angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(Angel
     };
 
     storyboard.deleteStory = function() {
-        AngelloModel.deleteStory(storyboard.editedStory._id)
+        StoryModel.deleteStory(storyboard.editedStory._id)
         .then(function(result){
             console.log('delete inside ctrl: '+ result);
             storyboard.stories = result;
