@@ -1,4 +1,4 @@
-var Story = require('./models/StoryModel.js');
+var Story = require('../models/StoryModel.js');
 
 module.exports = function(app){
     

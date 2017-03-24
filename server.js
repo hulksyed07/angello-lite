@@ -26,7 +26,8 @@
 
     // api ---------------------------------------------------------------------
     // get all stories
-    require('./app/story.routes.js')(app);
+    require('./app/routes/story.routes.js')(app);
+    require('./app/routes/status.routes.js')(app);
 
     // application -------------------------------------------------------------
     app.get('*', function(req, res) {
