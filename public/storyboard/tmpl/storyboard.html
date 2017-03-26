@@ -1,7 +1,6 @@
 <div ng-controller="StoryboardCtrl as storyboard">
 	<div class="col-md-4">
 		<h2>Stories</h2>
-		<div story></div>
 		<story class="callout"
                ng-repeat="story in storyboard.stories"
                ng-click="storyboard.setCurrentStory(story)">
@@ -12,7 +11,7 @@
         </a>
 	</div>
 	<div class="col-md-6 content">
-		<h2>Story{{storyboard.showDeleteButton}}</h2>
+		<h2>Story</h2>
 		<button ng-hide="!storyboard.currentStory" ng-click="storyboard.deleteStory()" >Delete</button>
 		<form class="form-horizontal" name="storyboard.detailsForm">
 			<div class="form-group">

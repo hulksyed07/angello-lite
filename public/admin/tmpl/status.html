@@ -1,7 +1,21 @@
 <div ng-controller="StatusController as statusCtrl">
 	
 	<div class="col-md-4">
-		<status ng-repeat="status in statusCtrl.statuses"  ng-click="setCurrentStatus()">
+		<status class="callout" ng-repeat="status in statusCtrl.statuses"  ng-click="statusCtrl.setCurrentStatus(status)">
 		</status>
+	</div>
+
+	<div>
+		<button ng-hide="!statusCtrl.currentStatus" ng-click="statusCtrl.deleteStatus()">Delete</button>
+		<form>
+			<input type="text" ng-model="statusCtrl.editedStatus.name"></input>
+		</form>
+		<div ng-show="statusCtrl.currentStatus">
+			<button ng-click="statusCtrl.updateCancel()">Cancel</button>
+			<button ng-click="statusCtrl.updateStatus()">Update</button>
+		</div>
+		<div ng-show="!statusCtrl.currentStatus">
+			<button ng-click="statusCtrl.createStatus()">New Status</button>
+		</div>
 	</div>
 </div>
