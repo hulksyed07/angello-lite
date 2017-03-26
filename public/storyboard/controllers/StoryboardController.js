@@ -18,19 +18,13 @@ angular.module('Angello.Storyboard').controller('StoryboardCtrl', function(Story
     storyboard.statusesIndex = AngelloHelper.buildIndex(storyboard.statuses, 'name');
     storyboard.currentStory = null;
     storyboard.editedStory = {};
-    // storyboard.isNewStory = function() {
-    //     console.log(angular.equals({}, storyboard.editedStory));
-    //     return (angular.equals({}, storyboard.editedStory));
-    // }
-    storyboard.showDeleteButton = false ;
-    // console.log(storyboard.isNewStory());
+
 
     storyboard.setCurrentStory = function (story) {
         storyboard.currentStory = story;
         storyboard.currentStatus = storyboard.statusesIndex[story.status];
         storyboard.currentType = storyboard.typesIndex[story.type];
         storyboard.editedStory = angular.copy(storyboard.currentStory);
-        storyboard.showDeleteButton = true ;
     };
 
     // storyboard.createStory = function() {
