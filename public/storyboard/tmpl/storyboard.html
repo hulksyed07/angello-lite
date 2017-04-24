@@ -7,13 +7,13 @@
                ng-click="storyboard.setCurrentStory(story)">
         </story>
 		<br/>
-		<a class="btn btn-primary" ng-click="storyboard.createStory()">
+		<a class="btn btn-primary" ng-click="storyboard.resetForm()">
             <span class="glyphicon glyphicon-plus"></span>
         </a>
 	</div>
 	<div class="col-md-6 content">
 		<h2>Story</h2>
-		<button ng-hide="!storyboard.currentStory" ng-click="storyboard.deleteStory()" >Delete</button>
+		<button class="btn pull-right btn-default" ng-hide="!storyboard.currentStory" ng-click="storyboard.deleteStory()" >Delete</button><br><br>
 		<form class="form-horizontal" name="storyboard.detailsForm">
 			<div class="form-group">
 				<label class="control-label" for="inputTitle">Title</label>
